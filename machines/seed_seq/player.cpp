@@ -546,23 +546,28 @@ void display(const State& s, const Controls& c, Display& d) {
     show(d.values[7], p.range, "");
 
     // Dots 0..15: the half of the pattern holding the playhead (steps 1..16 when
-    // stopped), lit where a step plays, straight from the controls. Dots 16..19
-    // each draw every fourth playhead tick, and dots 20..23 cover all but one
-    // group of four, leaving the one playhead tick.
+    // stopped), lit where a step plays, straight from the controls; the playhead
+    // flips its cell. Dots 16..23 mark the loop's end: dots 16..19 each draw an end
+    // bracket after every fourth cell, and dots 20..23 cover all but one group of
+    // four, leaving the one bracket after the loop's last step.
     const bool running = s.active && s.started && !s.waiting;
     const u32 half = running && s.current >= 16 ? 16 : 0;
     for (u32 i = 0; i < 16; ++i)
         if (half + i < p.length && plays(p, half + i)) d.lit |= 1u << i;
+    if (running) d.lit ^= 1u << (s.current - half);
+    const u32 last = p.length - 1;
+    if (last >= half && last < half + 16) {
+        const u32 end = last - half;
+        d.lit |= 1u << (16 + (end & 3));
+        for (u32 group = 0; group < 4; ++group)
+            if (group != end >> 2) d.lit |= 1u << (20 + group);
+    }
     at = 0;
     if (!running) {
         append(d.text, sizeof d.text, at, "seed ");
         append_pattern(d.text, sizeof d.text, at, p);
         return;
     }
-    const u32 head = s.current - half;
-    d.lit |= 1u << (16 + (head & 3));
-    for (u32 group = 0; group < 4; ++group)
-        if (group != head >> 2) d.lit |= 1u << (20 + group);
     if (s.has_note) {
         if (s.chord_count) {
             append(d.text, sizeof d.text, at, "chord");

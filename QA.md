@@ -34,7 +34,7 @@ Run every check on one OP-XY (OS 1.2.1), top to bottom, in one project, on the e
 17. **Transpose.** Hold or sequence a different chord. Pass: the same rhythm and pattern, on the new notes.
 18. **Range and gate.** RANGE 3, then GATE 10% and 100%. Pass: the pattern spreads over three octaves, and notes get short or long.
 19. **Saving.** Save the project with settings you like, then reload it. Pass: all eight settings return and the same pattern plays.
-20. **Length and rates.** LENGTH 5 and 24, and every RATE. Pass: the loop wraps at LENGTH, and with LENGTH over 16 the strip follows the playhead into the second half.
+20. **Length and rates.** LENGTH 5 and 24, and every RATE, at DENSITY 10%. Pass: the loop wraps at LENGTH, and a bracket after the last step shows where it ends, even while stopped and with few steps lit. With LENGTH 24 the strip follows the playhead into the second half, where the bracket appears after step 24. The playing step's cell flips as the playhead moves, and the black covers are invisible.
 21. **Hand-played chords.** Play C-E-G together by hand several times. Pass: no stab, and the same start as a sequenced chord.
 
 ## Results

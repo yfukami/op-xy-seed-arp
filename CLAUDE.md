@@ -5,7 +5,7 @@
 - **Verify after every code edit:**
   `../open-xy/.venv/bin/python ../open-xy/sdk.py test --machine machines/seed_seq --cxx /opt/homebrew/opt/llvm/bin/clang++`
   Add `--firmware` before committing, to compile for Blackfin as well.
-- **No browser preview:** `sdk.py preview` does not support players. Review the screen with `python3 tools/gen_panel.py --state 0x95a3,6 --out <file>.svg`, then test on the device.
+- **No browser preview:** `sdk.py preview` does not support players. Review the screen with `python3 tools/gen_panel.py --state 0x0405,11,6 --out <file>.svg`, then test on the device.
 - **Git hygiene:** commit to this repository only when the user asks. Never modify files inside `../open-xy`.
 - **Machine:** Seed Seq (`seed_seq`), a seeded pattern sequencer. The ID is final once it is in the catalog.
 

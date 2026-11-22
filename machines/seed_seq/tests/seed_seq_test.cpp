@@ -111,9 +111,10 @@ static void density() {
             configure(h, v);
             player::Display d = {};
             display(h.state, h.controls, d);
-            require((d.lit & below) == below);
-            if (level) require(d.lit & 1);  // step 1 anchors the downbeat
-            below = d.lit;
+            const u32 cells = d.lit & 0xffffu;
+            require((cells & below) == below);
+            if (level) require(cells & 1);  // step 1 anchors the downbeat
+            below = cells;
         }
         require(below == 0xffffu);
     }
@@ -335,7 +336,7 @@ static void cleanup() {
         configure(probe, sparse);
         player::Display d = {};
         display(probe.state, probe.controls, d);
-        if (d.lit == 1) seed = candidate;
+        if ((d.lit & 0xffffu) == 1) seed = candidate;
     }
     require(seed < 255);
     sparse.seed = seed;
@@ -346,6 +347,42 @@ static void cleanup() {
     idle.step(140000);
     for (const Event& e : idle.events) if (e.on) require(e.velocity != 1 && e.pitch == 60);
     require(idle.stale_updates == 0);
+}
+
+// The loop's end is marked after its last step, in whichever half shows it.
+static void loop_end() {
+    struct Case { u32 length, half_step, end; };  // half_step: where the playhead is (0: stopped)
+    const Case cases[] = {{16, 0, 15}, {5, 0, 4}, {1, 0, 0}, {12, 0, 11}, {20, 0, 99}, {20, 17, 3}, {32, 20, 15}};
+    for (const Case& c : cases) {
+        Settings v;
+        v.length = c.length; v.density = 5;
+        Host h;
+        configure(h, v);
+        if (c.half_step) {
+            h.press(60); h.press(64);
+            h.step(60 * c.half_step + 1);
+        }
+        player::Display d = {};
+        display(h.state, h.controls, d);
+        const u32 brackets = (d.lit >> 16) & 0xfu, covers = (d.lit >> 20) & 0xfu;
+        if (c.end == 99) {
+            require(!brackets && !covers);  // the loop ends in the other half
+        } else {
+            require(brackets == (1u << (c.end & 3)) && covers == (0xfu & ~(1u << (c.end >> 2))));
+        }
+        // Cells past the loop's end never light, whatever the density.
+        for (u32 cell = 0; cell < 16; ++cell)
+            if ((c.half_step >= 16 ? 16 : 0) + cell >= c.length) require(!(d.lit >> cell & 1));
+    }
+    // Stopped: no cell is flipped, so the cells are exactly the rhythm.
+    Settings v;
+    Host h;
+    configure(h, v);
+    player::Display d = {};
+    display(h.state, h.controls, d);
+    u32 rhythm = 0;
+    for (u32 step : step_numbers(play(v, kChord, 1), 60)) rhythm |= 1u << step;
+    require((d.lit & 0xffffu) == rhythm);
 }
 
 static void screen() {
@@ -368,12 +405,12 @@ static void screen() {
     display(h.state, h.controls, shown);
     u32 rhythm = 0;
     for (u32 step : step_numbers(play(p, kChord, 1), 60)) rhythm |= 1u << step;
-    require(shown.lit == rhythm && (rhythm & 1));
+    require((shown.lit & 0xffffu) == rhythm && (rhythm & 1));
     p.seed = 8;
     configure(h, p);
     player::Display next = {};
     display(h.state, h.controls, next);
-    require(next.lit != shown.lit);
+    require((next.lit & 0xffffu) != (shown.lit & 0xffffu));
 
     // Playing: the playhead, and the note with the pattern number.
     Settings q;
@@ -385,8 +422,9 @@ static void screen() {
     player::Display on = {};
     display(r.state, r.controls, on);
     require(std::strcmp(on.text, "E4  #0.42") == 0);  // step 22 of UP over C#4 E4: the second note
-    require((on.lit & 0xffffu) == 0xffffu);
-    require(((on.lit >> 16) & 0xfu) == (1u << 1) && ((on.lit >> 20) & 0xfu) == (0xfu & ~2u));
+    require((on.lit & 0xffffu) == (0xffffu & ~(1u << 5)));  // the playhead (step 22, cell 6) flips its lit cell
+    // LENGTH 32 ends in this half, after its last cell (16): bracket 4 of group 4.
+    require(((on.lit >> 16) & 0xfu) == (1u << 3) && ((on.lit >> 20) & 0xfu) == (0xfu & ~8u));
     Settings ch = q;
     ch.style = Chord;
     configure(r, ch);
@@ -408,6 +446,7 @@ int main() {
     length_rates_and_gate();
     hand_played_chords();
     cleanup();
+    loop_end();
     screen();
     std::puts("seed_seq: all checks passed");
     return 0;

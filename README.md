@@ -25,8 +25,10 @@ Press any encoder to switch pages. All eight are saved with the project, and sin
 
 ## Screen
 
-- **Strip:** 16 cells showing the pattern's rhythm. It changes as soon as you turn BANK, SEED, DENSITY or LENGTH. With LENGTH over 16, the strip shows whichever half is playing.
-- **Playhead:** a tick under the strip.
+- **Strip:** 16 cells showing the pattern's rhythm, lit where a step plays. It changes as soon as you turn BANK, SEED, DENSITY or LENGTH, even while stopped.
+- **Loop end:** a bracket `]` after the loop's last step, so LENGTH is always visible however sparse the rhythm. Cells after it never light.
+- **Playhead:** the playing step's cell flips, so a lit cell goes dark and a dark one lights.
+- **LENGTH over 16:** while playing, the strip shows whichever half the playhead is in, with the bracket in the half where the loop ends. When stopped, it shows steps 1 to 16.
 - **Text line:** the bank and seed, such as `seed 3.42` when stopped, or the playing note with them, such as `E4  #3.42`.
 
 ## Development
@@ -36,7 +38,7 @@ Press any encoder to switch pages. All eight are saved with the project, and sin
 ../open-xy/.venv/bin/python ../open-xy/sdk.py test --machine machines/seed_seq --cxx /opt/homebrew/opt/llvm/bin/clang++ --firmware
 ```
 
-`tests/harness.hpp` stands in for the OP-XY in host tests. To review the screen, run `python3 tools/gen_panel.py --state 0x95a3,6 --out /tmp/strip.svg`. Device checks are in [QA.md](QA.md).
+`tests/harness.hpp` stands in for the OP-XY in host tests. To review the screen, run `python3 tools/gen_panel.py --state 0x0405,11,6 --out /tmp/strip.svg` (lit cells, the loop's last cell, the playhead cell). Device checks are in [QA.md](QA.md).
 
 ## License
 

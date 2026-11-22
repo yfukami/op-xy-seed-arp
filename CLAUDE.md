@@ -3,11 +3,11 @@
 - **SDK location:** the Open-XY SDK lives at `../open-xy`. Before writing code, read `sdk/include/opxy/player.hpp`, the "Note players" section of `docs/api.md`, and `../op-xy-euclidean-arp` (a finished, device-tested player).
 - **Target:** embedded C++ for the Analog Devices Blackfin (OP-XY OS 1.2.1). No heap allocation (`new`, `malloc`, `std::vector`, `std::string`) in `player.cpp`. Keep all state in `State` (at most 2048 bytes, valid when zeroed). The host tests may use the standard library.
 - **Verify after every code edit:**
-  `../open-xy/.venv/bin/python ../open-xy/sdk.py test --machine machines/newplayer --cxx /opt/homebrew/opt/llvm/bin/clang++`
+  `../open-xy/.venv/bin/python ../open-xy/sdk.py test --machine machines/seed_seq --cxx /opt/homebrew/opt/llvm/bin/clang++`
   Add `--firmware` before committing, to compile for Blackfin as well.
-- **No browser preview:** `sdk.py preview` does not support players. Review the screen with `python3 tools/gen_panel.py --lit 3 --out <file>.svg`, then test on the device.
+- **No browser preview:** `sdk.py preview` does not support players. Review the screen with `python3 tools/gen_panel.py --state 0x95a3,6 --out <file>.svg`, then test on the device.
 - **Git hygiene:** commit to this repository only when the user asks. Never modify files inside `../open-xy`.
-- **Naming:** `newplayer` is a placeholder. When the user chooses a name, run `python3 tools/rename.py <id> "<Display Name>"`.
+- **Machine:** Seed Seq (`seed_seq`), a seeded pattern sequencer. The ID is final once it is in the catalog.
 
 ## Device-verified lessons (from Euclidean Arp, OS 1.2.1)
 
@@ -15,6 +15,7 @@
 - **Screen artwork:** draw it with straight-line `<path>` elements (M/L/Z). The device drew none of a page's `<circle>` elements, even though the SDK's validator accepts them. Artwork must stay below y=38, where the SDK draws the header.
 - **Header values:** each value has about 53 px at 20 px Univers Next Pro Light. Prefer short lowercase captions such as `up/dn`, because uppercase words like `CHORD` overlapped the next column. Captions come from `Display.values`, and enum labels in `definition.json` cannot contain `/`.
 - **Page-1 encoder 4:** a non-enum control there becomes stock's on/off toggle, so use an enum. Enums move one choice per detent.
+- **Compile for Blackfin early:** run with `--firmware` after every engine change, not only before committing. The host tests' compiler misses signed/unsigned comparisons that the Blackfin compiler rejects; this broke two builds.
 - **Divide guard:** `opxy::divide::quotient16` breaks when the compiler can prove both operands equal. Keep the `n == d ? 1 :` guard in `divide()`.
 - **Player clock:** `update()` is drained before every player step (240 per quarter note) and after every press and release, at most eight calls each. Steps run with the transport stopped.
 - **Releasing roots:** an empty Replace releases a root permanently. To silence a held key but keep it, Replace it with a far-future queued tone (delay 65535), renewed before it would sound.

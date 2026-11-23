@@ -1,4 +1,4 @@
-# Seed Seq
+# Seed Arp
 
 An Open-XY note player for the OP-XY (OS 1.2.1, SDK 1.16): a seeded pattern sequencer. The notes you hold or sequence, such as a chord or a scale, are its pitches. BANK and SEED choose a rhythm, and STYLE the order the notes play in.
 
@@ -34,8 +34,8 @@ Press any encoder to switch pages. All eight are saved with the project, and sin
 ## Development
 
 ```sh
-../open-xy/.venv/bin/python ../open-xy/sdk.py test --machine machines/seed_seq --cxx /opt/homebrew/opt/llvm/bin/clang++
-../open-xy/.venv/bin/python ../open-xy/sdk.py test --machine machines/seed_seq --cxx /opt/homebrew/opt/llvm/bin/clang++ --firmware
+../open-xy/.venv/bin/python ../open-xy/sdk.py test --machine machines/seed_arp --cxx /opt/homebrew/opt/llvm/bin/clang++
+../open-xy/.venv/bin/python ../open-xy/sdk.py test --machine machines/seed_arp --cxx /opt/homebrew/opt/llvm/bin/clang++ --firmware
 ```
 
 `tests/harness.hpp` stands in for the OP-XY in host tests. To review the screen, run `python3 tools/gen_panel.py --state 0x0405,11,6 --out /tmp/strip.svg` (lit cells, the loop's last cell, the playhead cell). Device checks are in [QA.md](QA.md).

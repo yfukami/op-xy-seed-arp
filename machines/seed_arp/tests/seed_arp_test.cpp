@@ -448,6 +448,6 @@ int main() {
     cleanup();
     loop_end();
     screen();
-    std::puts("seed_seq: all checks passed");
+    std::puts("seed_arp: all checks passed");
     return 0;
 }

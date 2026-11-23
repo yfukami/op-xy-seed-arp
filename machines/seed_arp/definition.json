@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "id": "seed_seq",
-  "name": "Seed Seq",
+  "id": "seed_arp",
+  "name": "Seed Arp",
   "press": "page",
   "resources": {},
   "presets": {},

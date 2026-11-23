@@ -11,7 +11,7 @@
 
 using opxy::i32;
 using opxy::u32;
-namespace machine = seed_seq;
+namespace machine = seed_arp;
 namespace player = opxy::player;
 
 struct Event {

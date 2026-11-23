@@ -1,4 +1,4 @@
-// Seed Seq: a seeded pattern sequencer. The held keys (a scale or a chord) are
+// Seed Arp: a seeded pattern sequencer. The held keys (a scale or a chord) are
 // the pitches. BANK and SEED choose one of 65,025 rhythms, DENSITY how many of
 // its steps play, and STYLE the order the notes play in: each played step takes
 // the pattern's next note, and the pattern starts again with every loop. The
@@ -14,7 +14,7 @@
 #include <opxy/divide.hpp>
 #include <opxy/player.hpp>
 
-namespace seed_seq {
+namespace seed_arp {
 using opxy::u8;
 using opxy::u16;
 using opxy::u32;
@@ -582,4 +582,4 @@ void display(const State& s, const Controls& c, Display& d) {
     append(d.text, sizeof d.text, at, "#");
     append_pattern(d.text, sizeof d.text, at, p);
 }
-}  // namespace seed_seq
+}  // namespace seed_arp

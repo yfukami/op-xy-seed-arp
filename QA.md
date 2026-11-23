@@ -2,7 +2,7 @@
 
 Run every check on one OP-XY (OS 1.2.1), top to bottom, in one project, on the exact commit you will publish. Host tests cannot answer these questions. Add the player's own checks under "Musical features".
 
-**Setup:** one track with a simple sustaining synth patch, with Seed Seq as its player, at its defaults: SEED 0, BANK 0, DENSITY 60%, STYLE up, LENGTH 16, RATE 1/16, GATE 50%, RANGE 1. Hold or step-sequence C, E, G unless a check says otherwise.
+**Setup:** one track with a simple sustaining synth patch, with Seed Arp as its player, at its defaults: SEED 0, BANK 0, DENSITY 60%, STYLE up, LENGTH 16, RATE 1/16, GATE 50%, RANGE 1. Hold or step-sequence C, E, G unless a check says otherwise.
 
 ## Core timing
 

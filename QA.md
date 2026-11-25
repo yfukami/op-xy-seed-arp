@@ -32,11 +32,14 @@ Run every check on one OP-XY (OS 1.2.1), top to bottom, in one project, on the e
 15. **Density.** Sweep DENSITY from 0% to 100%, then on through 95%* to 0%*. Pass: 0% is silent, steps are only added as it rises, and 100% plays every step. With STYLE up at 60%, every note of C E G comes through in turn. At 60%* the rhythm is the same, but some notes are skipped, so the melody matches the 100% version with gaps.
 16. **Styles.** Try every STYLE. Pass: the rhythm stays the same while the note order changes. Random styles repeat each loop. Chord and chd/1 on a monophonic instrument keep the lowest note.
 17. **Transpose.** Hold or sequence a different chord. Pass: the same rhythm and pattern, on the new notes.
-18. **Range and gate.** RANGE 3, then GATE 10% and 100%. Pass: the pattern spreads over three octaves, and notes get short or long.
+18. **Range and gate.** RANGE 4, then GATE 10% and 100%. Pass: the pattern spreads over four octaves, notes above MIDI 127 drop out, and notes get short or long.
 19. **Saving.** Save the project with settings you like, then reload it. Pass: all eight settings return and the same pattern plays.
 20. **Length and rates.** LENGTH 5 and 24, and every RATE, at DENSITY 10%. Pass: the loop wraps at LENGTH, and a bracket after the last step shows where it ends, even while stopped and with few steps lit. With LENGTH 24 the strip follows the playhead into the second half, where the bracket appears after step 24. The playing step's cell flips as the playhead moves, and the black covers are invisible.
 21. **Hand-played chords.** Play C-E-G together by hand several times. Pass: no stab, and the same start as a sequenced chord.
 
 ## Results
 
-Not yet run.
+2026-11-24, OS 1.2.1, all 21 checks passed.
+
+- Checks 1–7 ran on build `all-006`, made from commit `397e1c2` plus the STYLE label change to `u/d+`, `d/u+` and `thmb`.
+- Checks 8–21 ran on build `all-007`, which adds RANGE 1 to 4.

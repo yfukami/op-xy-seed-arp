@@ -14,7 +14,7 @@ struct Settings {
 
 static void configure(Host& h, const Settings& v) {
     h.set(0, v.seed, 255); h.set(1, v.bank, 255); h.set(2, v.skip ? 40 - v.density / 5 : v.density / 5, kDensities); h.set(3, v.style - 1, kStyles);
-    h.set(4, v.length - 1, 32); h.set(5, v.rate, 9); h.set(6, (v.gate - 10) / 5, kGates); h.set(7, v.range - 1, 3);
+    h.set(4, v.length - 1, 32); h.set(5, v.rate, 9); h.set(6, (v.gate - 10) / 5, kGates); h.set(7, v.range - 1, 4);
 }
 
 struct Span { u32 pitch, on, off; };
@@ -150,6 +150,10 @@ static void styles() {
     Settings wide = v;
     wide.density = 100; wide.range = 2;
     require(pitches_of(play(wide, kChord, 1)) == Notes({60, 64, 67, 72, 76, 79, 60, 64, 67, 72, 76, 79, 60, 64, 67, 72}));
+    // RANGE 4: four octaves, and notes past MIDI 127 drop out.
+    wide.range = 4;
+    require(pitches_of(play(wide, kChord, 1)) == Notes({60, 64, 67, 72, 76, 79, 84, 88, 91, 96, 100, 103, 60, 64, 67, 72}));
+    require(pitches_of(play(wide, {100, 110}, 1)) == Notes({100, 110, 112, 122, 124, 100, 110, 112, 122, 124, 100, 110, 112, 122, 124, 100}));
 }
 
 static void skipping() {

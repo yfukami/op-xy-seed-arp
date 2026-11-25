@@ -13,10 +13,10 @@ Press any encoder to switch pages. All eight are saved with the project, and sin
 | 1 | SEED: 0 to 254 | LENGTH: 1 to 32 steps |
 | 2 | BANK: 0 to 254, each with its own 255 seeds | RATE: 1/2t to 1/32t, triplets included |
 | 3 | DENSITY: how many steps play, 0% to 100%, then 95%* to 0%* | GATE: 10% to 100% |
-| 4 | STYLE: the order notes play in | RANGE: 1 to 3 octaves above the held notes |
+| 4 | STYLE: the order notes play in | RANGE: 1 to 4 octaves above the held notes |
 
 - **Rhythm:** BANK and SEED choose the rhythm, one of 65,025, and DENSITY how many of its steps play. Step 1 always plays, so the pattern has a downbeat. Raising DENSITY only adds steps and never moves the ones already playing.
-- **STYLE** picks the order notes play in, from the same patterns as Chain Arp: up, down, up/dn, dn/up, updn+, dnup+, order, conv, divrg, pinky, thumb, the four stairs (stu+, stu-, std-, std+), shuf, rand, drunk, chord and chd/1.
+- **STYLE** picks the order notes play in, from the same patterns as Chain Arp: up, down, up/dn, dn/up, u/d+, d/u+, order, conv, divrg, pinky, thmb, the four stairs (stu+, stu-, std-, std+), shuf, rand, drunk, chord and chd/1.
   - **Next note:** each played step takes the pattern's next note, and every loop starts the pattern again.
   - **Starred DENSITY skips:** with DENSITY on a `*` value, the pattern moves on every step instead, so a rest skips the note it would have played. Each played step then plays exactly the note it would at 100%. Unstarred, the whole pattern comes through however sparse the rhythm.
   - **Random styles:** shuf, rand and drunk draw from the seed, so they repeat each loop and after a reload.

@@ -601,13 +601,13 @@
           "DOWN",
           "UP-DN",
           "DN-UP",
-          "UPDN+",
-          "DNUP+",
+          "U-D+",
+          "D-U+",
           "ORDER",
           "CONV",
           "DIVRG",
           "PINKY",
-          "THUMB",
+          "THMB",
           "STU+",
           "STU-",
           "STD-",
@@ -717,13 +717,14 @@
     {
       "id": "range",
       "label": "RANGE",
-      "default": 0.166667,
+      "default": 0.125,
       "mapping": {
         "kind": "enum",
         "labels": [
           "1",
           "2",
-          "3"
+          "3",
+          "4"
         ]
       },
       "display": "enum"

@@ -26,7 +26,7 @@ using opxy::player::Update;
 
 const u32 kSlots = opxy::player::max_tones;  // the SDK holds at most eight roots
 const u32 kSteps = 32;
-const u32 kMaxRange = 3;
+const u32 kMaxRange = 4;
 const u32 kPool = kSlots * kMaxRange;
 const u32 kDrainLimit = 8;             // the SDK's updates per drain
 const u16 kParkedDelay = 65535;        // player steps before a parked tone would sound
@@ -528,8 +528,8 @@ inline void show(char (&out)[8], u32 value, const char* suffix) {
 
 void display(const State& s, const Controls& c, Display& d) {
     // Lower case: a header value has under 60 px.
-    static const char styles[kPatterns][6] = {"off", "up", "down", "up/dn", "dn/up", "updn+", "dnup+", "order", "conv",
-                                              "divrg", "pinky", "thumb", "stu+", "stu-", "std-", "std+", "shuf", "rand",
+    static const char styles[kPatterns][6] = {"off", "up", "down", "up/dn", "dn/up", "u/d+", "d/u+", "order", "conv",
+                                              "divrg", "pinky", "thmb", "stu+", "stu-", "std-", "std+", "shuf", "rand",
                                               "drunk", "chord", "chd/1"};
     static const char rates[kRates][6] = {"1/2t", "1/4", "1/4t", "1/8", "1/8t", "1/16", "1/16t", "1/32", "1/32t"};
     static const char notes[12][3] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
